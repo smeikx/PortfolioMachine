@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
 	};
 	State state = State.Searching;
 
+	// globale Position, zu der Personen zoomen sollen
+	[HideInInspector] public Vector3 personDestination;
 
 
 	void Start ()
@@ -50,6 +52,7 @@ public class GameManager : MonoBehaviour
 
 	void Update ()
 	{
+		personDestination = mainCamera.forward * zoomDistance;
 	}
 
 

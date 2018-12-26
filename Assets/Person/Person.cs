@@ -9,15 +9,14 @@ public class Person : MonoBehaviourWithGameManager
 	Vector3 localOrigin;
 	Quaternion originalRotation;
 
-	Vector3 finalDestination;
 	Quaternion finalRotation;
 	SphereCollider collider;
 
 	void Start()
 	{
+		SetGameManager();
 		localOrigin = transform.localPosition;
 		originalRotation = transform.rotation;
-		finalDestination = Camera.main.transform.position + Vector3.forward * 7;
 		collider = GetComponent<SphereCollider>();
 	}
 
@@ -25,10 +24,10 @@ public class Person : MonoBehaviourWithGameManager
 	{
 		if (shouldZoomIn)
 		{
-			ZoomTo(transform.parent.InverseTransformPoint(finalDestination));
+			ZoomTo(transform.parent.InverseTransformPoint(GM.personDestination));
 			Quaternion finalRotation = Quaternion.LookRotation(
 				transform.position - Camera.main.transform.position,
-				Vector3.up);
+				Camera.main.transform.up);
 			RotateTo(finalRotation);
 		}
 		else
