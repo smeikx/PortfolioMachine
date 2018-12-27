@@ -25,6 +25,7 @@ public class Person : MonoBehaviourWithGameManager
 		if (shouldZoomIn)
 		{
 			ZoomTo(transform.parent.InverseTransformPoint(GM.personDestination));
+			// Make rotation level relative to camera.
 			Quaternion finalRotation = Quaternion.LookRotation(
 				transform.position - Camera.main.transform.position,
 				Camera.main.transform.up);
@@ -33,9 +34,11 @@ public class Person : MonoBehaviourWithGameManager
 		else
 		{
 			ZoomTo(localOrigin);
-			RotateTo(transform.parent.rotation * originalRotation);
+			// Adjust rotation to counter camera’s z-rotation.
+			Vector3 rotationAxis = (transform.position - Camera.main.transform.position).normalized;
+			finalRotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.z, rotationAxis) * originalRotation;
+			RotateTo(finalRotation);
 		}
-		AdjustRotationToCamera();
 	}
 
 
@@ -46,13 +49,6 @@ public class Person : MonoBehaviourWithGameManager
 
 		// halte Collider an Ursprungsposition
 		collider.center = transform.InverseTransformPoint(transform.parent.TransformPoint(localOrigin));
-
-		/*
-			Debug.Log(collider.center);
-			Debug.Log(transform.localPosition);
-			Debug.Log(localOrigin);
-			Debug.Log("-----------------");
-		*/
 	}
 
 
@@ -64,5 +60,7 @@ public class Person : MonoBehaviourWithGameManager
 
 	void AdjustRotationToCamera()
 	{
+		Vector3 rotationAxis = (transform.position - Camera.main.transform.position).normalized;
+		finalRotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.z, rotationAxis) * originalRotation;
 	}
 }
