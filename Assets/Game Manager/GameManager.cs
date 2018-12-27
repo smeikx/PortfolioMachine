@@ -15,12 +15,14 @@ public class GameManager : MonoBehaviour
 
 	[Header("Selektions-Parameter")]
 	[SerializeField] float zoomDistance = 1.0f;
+	public float personZoomSpeed = 1.0f;
+	public float personRotationSpeed = 1.0f;
 	
 	[Header("Drehungs-Parameter")]
-	[SerializeField] float rotationSpeed = 2f;
-	[SerializeField] float rotationFactorX = 1f;
-	[SerializeField] float rotationFactorY = 1f;
-	[SerializeField] float rotationFactorZ = 1f;
+	public float viewRotationSpeed = 2f;
+	public float rotationFactorX = 1f;
+	public float rotationFactorY = 1f;
+	public float rotationFactorZ = 1f;
 
 	OSCMice oscMice;
 
@@ -45,8 +47,6 @@ public class GameManager : MonoBehaviour
 		//oscMice = null;
 		Debug.Log("Keine OSC-Mäuse verfügbar");
 		#endif
-
-		sphere.rotationSpeed = rotationSpeed;
 	}
 	
 

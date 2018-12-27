@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Person : MonoBehaviourWithGameManager
 {
-	const float speed = 1.0f;
 	public bool shouldZoomIn = false;
 	Vector3 localOrigin;
 	Quaternion originalRotation;
@@ -45,7 +44,7 @@ public class Person : MonoBehaviourWithGameManager
 	void ZoomTo(Vector3 destination)
 	{
 		// interpoliere vor die Kamera
-		transform.localPosition = Vector3.Lerp(transform.localPosition, destination, speed * Time.deltaTime);
+		transform.localPosition = Vector3.Lerp(transform.localPosition, destination, GM.personZoomSpeed * Time.deltaTime);
 
 		// halte Collider an Ursprungsposition
 		collider.center = transform.InverseTransformPoint(transform.parent.TransformPoint(localOrigin));
@@ -54,7 +53,7 @@ public class Person : MonoBehaviourWithGameManager
 
 	void RotateTo(Quaternion targetRotation)
 	{
-		transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+		transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, GM.personRotationSpeed * Time.deltaTime);
 	}
 
 
