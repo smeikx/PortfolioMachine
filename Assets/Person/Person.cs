@@ -5,11 +5,18 @@ using UnityEngine;
 public class Person : MonoBehaviourWithGameManager
 {
 	public bool shouldZoomIn = false;
+	const float SELECTION_THRESHOLD = 0.2f;
+
 	Vector3 localOrigin;
 	Quaternion originalRotation;
 
-	Quaternion finalRotation;
+	Vector3 targetPosition;
+	Quaternion targetRotation;
+
 	SphereCollider collider;
+
+	Vector3 velocity = Vector3.zero; // for smooth damping
+
 
 	void Start()
 	{
@@ -23,28 +30,34 @@ public class Person : MonoBehaviourWithGameManager
 	{
 		if (shouldZoomIn)
 		{
-			ZoomTo(transform.parent.InverseTransformPoint(GM.personDestination));
-			// Make rotation level relative to camera.
-			Quaternion finalRotation = Quaternion.LookRotation(
+			targetPosition = transform.parent.InverseTransformPoint(GM.personDestination);
+			// Drehe Person so, dass sie parallel zur Kamera steht.
+			targetRotation = Quaternion.LookRotation(
 				transform.position - Camera.main.transform.position,
 				Camera.main.transform.up);
-			RotateTo(finalRotation);
 		}
 		else
 		{
-			ZoomTo(localOrigin);
-			// Adjust rotation to counter camera’s z-rotation.
+			targetPosition = localOrigin;
+			// Passe Z-Drehung so an, dass sie relativ zur Kamera gleich bleibt.
 			Vector3 rotationAxis = (transform.position - Camera.main.transform.position).normalized;
-			finalRotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.z, rotationAxis) * originalRotation;
-			RotateTo(finalRotation);
+			targetRotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.z, rotationAxis) * originalRotation;
 		}
+
+		if (shouldZoomIn && Vector3.Distance(targetPosition, transform.position) <= SELECTION_THRESHOLD)
+			GM.ReportPersonSelected(transform);
+
+		// TODO: möglicherweise MoveTo() und RotateTo() überspringingen, wenn nicht notwendig.
+		MoveTo(targetPosition);
+		RotateTo(targetRotation);
 	}
 
 
-	void ZoomTo(Vector3 destination)
+	void MoveTo(Vector3 localDestination)
 	{
 		// interpoliere vor die Kamera
-		transform.localPosition = Vector3.Lerp(transform.localPosition, destination, GM.personZoomSpeed * Time.deltaTime);
+		transform.localPosition = Vector3.SmoothDamp(transform.localPosition, localDestination, ref velocity, GM.personZoomDuration);
+		// Für Entscheidung zwischen Lerp und SmoothDamp siehe hier: http://i.imgur.com/FeKRE1c.gif
 
 		// halte Collider an Ursprungsposition
 		collider.center = transform.InverseTransformPoint(transform.parent.TransformPoint(localOrigin));
@@ -54,12 +67,5 @@ public class Person : MonoBehaviourWithGameManager
 	void RotateTo(Quaternion targetRotation)
 	{
 		transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, GM.personRotationSpeed * Time.deltaTime);
-	}
-
-
-	void AdjustRotationToCamera()
-	{
-		Vector3 rotationAxis = (transform.position - Camera.main.transform.position).normalized;
-		finalRotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.z, rotationAxis) * originalRotation;
 	}
 }

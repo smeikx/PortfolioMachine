@@ -15,9 +15,9 @@ public class GameManager : MonoBehaviour
 
 	[Header("Selektions-Parameter")]
 	[SerializeField] float zoomDistance = 1.0f;
-	public float personZoomSpeed = 1.0f;
+	public float personZoomDuration = 1.0f;
 	public float personRotationSpeed = 1.0f;
-	
+
 	[Header("Drehungs-Parameter")]
 	public float viewRotationSpeed = 2f;
 	public float rotationFactorX = 1f;
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 		Debug.Log("Keine OSC-Mäuse verfügbar");
 		#endif
 	}
-	
+
 
 	void Update ()
 	{
@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
 	}
 
 
+
 	public void ReportPersonFound(Transform person)
 	{
 		state = State.Focusing;
@@ -83,9 +84,16 @@ public class GameManager : MonoBehaviour
 		person.GetComponent<Person>().shouldZoomIn = true;
 	}
 
+
 	public void ReportPersonLost(Transform person)
 	{
 		Debug.Log("Person Lost");
 		person.GetComponent<Person>().shouldZoomIn = false;
+	}
+
+
+	public void ReportPersonSelected(Transform person)
+	{
+		Debug.Log("Person Selected");
 	}
 }
