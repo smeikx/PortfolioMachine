@@ -20,13 +20,13 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.43527526, g: 0.43527526, b: 0.43527526, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731725, g: 0.13414744, b: 0.12107873, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -430,7 +430,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f12b35bed854af8b16015ee4332733, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 10
   rotationHelper: {fileID: 138796674}
 --- !u!4 &556277504 stripped
 Transform:
@@ -502,7 +501,9 @@ MonoBehaviour:
   mainCamera: {fileID: 534669905}
   sphere: {fileID: 1902366473}
   zoomDistance: 7
-  rotationSpeed: 11.44
+  personZoomDuration: 1
+  personRotationSpeed: 1
+  viewRotationSpeed: 2
   rotationFactorX: 1
   rotationFactorY: 1
   rotationFactorZ: 1
@@ -1247,7 +1248,7 @@ ParticleSystem:
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0.63
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
@@ -5686,7 +5687,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 10
+  m_Range: 43.32
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -6071,6 +6072,10 @@ PrefabInstance:
     - target: {fileID: 1433577447, guid: 8af8ca3e2733641d5aadd4b4f7c05fe2, type: 3}
       propertyPath: shouldZoomIn
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1433577447, guid: 8af8ca3e2733641d5aadd4b4f7c05fe2, type: 3}
+      propertyPath: debug
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8af8ca3e2733641d5aadd4b4f7c05fe2, type: 3}

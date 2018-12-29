@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿// Ursprünglich drehten sich die Arbeiten, nicht die Kamera;
+// deshalb wird dieses Script nicht mehr gebraucht.
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Sphere : MonoBehaviourWithGameManager
 {
+/*
 	Vector3 desiredSphereRotationEuler;
 	public float rotationSpeed = 1.0f;
 
@@ -28,4 +31,5 @@ public class Sphere : MonoBehaviourWithGameManager
 
 		//Debug.Log(transform.rotation.eulerAngles);
 	}
+*/
 }
