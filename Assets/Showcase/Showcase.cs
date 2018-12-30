@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Showcase : MonoBehaviourWithGameManager
 {
+	Transform[] works;
+
 	void Start()
 	{
 		SetGameManager();
+
+		works = new Transform[transform.childCount];
+		int i = 0;
+		foreach (Transform child in transform)
+			works[i++] = child;
 	}
 
 	void Update()

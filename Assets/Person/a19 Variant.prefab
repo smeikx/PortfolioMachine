@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 359471772}
   - component: {fileID: 359471771}
   - component: {fileID: 359471770}
-  - component: {fileID: 359471773}
   m_Layer: 0
   m_Name: Name
   m_TagString: Untagged
@@ -94,18 +93,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &359471773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 359471769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98ad5ae6ee3754f5bb0585a38074be2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &1433577446
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -114,7 +101,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2831035425621932213}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
