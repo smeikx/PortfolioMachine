@@ -20,8 +20,10 @@ public class GameManager : MonoBehaviour
 	public float personZoomDuration = 1.0f;
 	[Tooltip("Wie schnell dreht sich die Person so, dass sie gerade und parallel zum Betrachter steht, und optimal gelesen werden kann?")]
 	public float personRotationSpeed = 1.0f;
-	[Tooltip("Wie stark wird der Blick in den Mittelpunkt der Person gezogen?")]
-	public float personPullForce = 1.0f;
+	[Tooltip("Wie stark wird der Blick in den Mittelpunkt der Person gezogen, bevor sie ausgewählt wurde?")]
+	public float weakPersonPullForce = 1.0f;
+	[Tooltip("Wie stark wird der Blick im Mittelpunkt der Person gehalten, sobald sie ausgewählt ist?")]
+	public float strongPersonPullForce = 1.0f;
 
 	[Header("Drehungs-Parameter")]
 	[Tooltip("Wie groß ist die Verzögerung, mit der die Drehung der Kugel den Blickwinkel verändert?")]
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
 
 	OSCMice oscMice;
 	Viewer viewer;
+	[HideInInspector] public float personPullForce = 1.0f;
 
 	enum State {
 		Searching, // in Übersicht, schaut sich um
@@ -86,24 +89,28 @@ public class GameManager : MonoBehaviour
 	public void ReportPersonFound(Transform person)
 	{
 		state = State.Focusing;
-		Debug.Log("Person Found");
+
 		person.GetComponent<Person>().shouldZoomIn = true;
+
 		viewer.StartTracking(person.position);
 	}
 
 
 	public void ReportPersonLost(Transform person)
 	{
-		Debug.Log("Person Lost");
 		person.GetComponent<Person>().shouldZoomIn = false;
+
 		viewer.StopTracking();
 		viewer.blockXRotation = false;
+
+		personPullForce = weakPersonPullForce;
 	}
 
 
 	public void ReportPersonSelected(Transform person)
 	{
-		Debug.Log("Person Selected");
 		viewer.blockXRotation = true;
+
+		personPullForce = strongPersonPullForce;
 	}
 }
