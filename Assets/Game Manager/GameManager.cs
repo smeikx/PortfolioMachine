@@ -10,22 +10,31 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 	[Header("Objekt-Referencen")]
+	[Tooltip("Die Hauptkamera, der Betrachter.")]
 	[SerializeField] Transform mainCamera;
-	[SerializeField] Viewer viewer;
 
 	[Header("Selektions-Parameter")]
+	[Tooltip("Wie nah vor der Kamera schwebt die Person?")]
 	public float personZoomDistance = 1.0f;
+	[Tooltip("Wie lange dauert es, bis die Person ausgewählt wurde?")]
 	public float personZoomDuration = 1.0f;
+	[Tooltip("Wie schnell dreht sich die Person so, dass sie gerade und parallel zum Betrachter steht, und optimal gelesen werden kann?")]
 	public float personRotationSpeed = 1.0f;
+	[Tooltip("Wie stark wird der Blick in den Mittelpunkt der Person gezogen?")]
 	public float personPullForce = 1.0f;
 
 	[Header("Drehungs-Parameter")]
+	[Tooltip("Wie groß ist die Verzögerung, mit der die Drehung der Kugel den Blickwinkel verändert?")]
 	public float viewRotationSpeed = 2f;
-	public float rotationFactorX = 1f;
-	public float rotationFactorY = 1f;
-	public float rotationFactorZ = 1f;
+	[Tooltip("Wie stark beeinflusst die Drehung der Kugel den Blickwinkel auf der X-Achse?")]
+	[SerializeField] float rotationFactorX = 1f;
+	[Tooltip("Wie stark beeinflusst die Drehung der Kugel den Blickwinkel auf der Y-Achse?")]
+	[SerializeField] float rotationFactorY = 1f;
+	[Tooltip("Wie stark beeinflusst die Drehung der Kugel den Blickwinkel auf der Z-Achse?")]
+	[SerializeField] float rotationFactorZ = 1f;
 
 	OSCMice oscMice;
+	Viewer viewer;
 
 	enum State {
 		Searching, // in Übersicht, schaut sich um
@@ -38,6 +47,7 @@ public class GameManager : MonoBehaviour
 	void Start ()
 	{
 		if (mainCamera == null) mainCamera = Camera.main.transform;
+		viewer = mainCamera.GetComponent<Viewer>();
 
 		oscMice = GetComponent<OSCMice>();
 		#if !OSC_AVAILABLE
