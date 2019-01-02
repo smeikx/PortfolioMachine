@@ -11,12 +11,13 @@ public class GameManager : MonoBehaviour
 {
 	[Header("Objekt-Referencen")]
 	[SerializeField] Transform mainCamera;
-	[SerializeField] Sphere sphere;
+	[SerializeField] Viewer viewer;
 
 	[Header("Selektions-Parameter")]
-	[SerializeField] float zoomDistance = 1.0f;
+	public float personZoomDistance = 1.0f;
 	public float personZoomDuration = 1.0f;
 	public float personRotationSpeed = 1.0f;
+	public float personPullForce = 1.0f;
 
 	[Header("Drehungs-Parameter")]
 	public float viewRotationSpeed = 2f;
@@ -32,9 +33,6 @@ public class GameManager : MonoBehaviour
 		Selected // Person ist herangezogen, Arbeiten werden angezeigt
 	};
 	State state = State.Searching;
-
-	// globale Position, zu der Personen zoomen sollen
-	[HideInInspector] public Vector3 personDestination;
 
 
 	void Start ()
@@ -52,7 +50,6 @@ public class GameManager : MonoBehaviour
 
 	void Update ()
 	{
-		personDestination = mainCamera.forward * zoomDistance;
 	}
 
 
@@ -76,12 +73,12 @@ public class GameManager : MonoBehaviour
 	}
 
 
-
 	public void ReportPersonFound(Transform person)
 	{
 		state = State.Focusing;
 		Debug.Log("Person Found");
 		person.GetComponent<Person>().shouldZoomIn = true;
+		viewer.StartTracking(person.position);
 	}
 
 
@@ -89,11 +86,14 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log("Person Lost");
 		person.GetComponent<Person>().shouldZoomIn = false;
+		viewer.StopTracking();
+		viewer.blockXRotation = false;
 	}
 
 
 	public void ReportPersonSelected(Transform person)
 	{
 		Debug.Log("Person Selected");
+		viewer.blockXRotation = true;
 	}
 }

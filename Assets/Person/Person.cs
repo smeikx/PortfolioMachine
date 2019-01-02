@@ -30,7 +30,8 @@ public class Person : MonoBehaviourWithGameManager
 	{
 		if (shouldZoomIn)
 		{
-			targetPosition = transform.parent.InverseTransformPoint(GM.personDestination);
+			targetPosition = transform.parent.InverseTransformPoint(
+					(transform.position - Camera.main.transform.position).normalized * GM.personZoomDistance);
 			// Drehe Person so, dass sie parallel zur Kamera steht.
 			targetRotation = Quaternion.LookRotation(
 				transform.position - Camera.main.transform.position,
