@@ -5,10 +5,16 @@ using UnityEngine;
 public class Showcase : MonoBehaviourWithGameManager
 {
 	Transform[] works;
+	Vector3 localDestination;
+	Vector3 velocity = Vector3.zero; // für SmoothDamp
+	float scrollDuration = 0.3f;
+	const float SCROLL_FACTOR = 0.1f;
 
 	void Start()
 	{
 		SetGameManager();
+
+		localDestination = transform.localPosition;
 
 		works = new Transform[transform.childCount];
 		int i = 0;
@@ -18,7 +24,8 @@ public class Showcase : MonoBehaviourWithGameManager
 
 	void Update()
 	{
-		transform.rotation *= Quaternion.Euler(GM.GetRelativeRotationInput().x, 0f, 0f);
+		localDestination += GM.GetRelativeRotationInput().x * SCROLL_FACTOR * Vector3.up;
+		transform.localPosition = Vector3.SmoothDamp(transform.localPosition, localDestination, ref velocity, scrollDuration);
 	}
 
 	public void Activate()
