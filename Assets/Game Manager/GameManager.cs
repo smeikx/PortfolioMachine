@@ -98,7 +98,9 @@ public class GameManager : MonoBehaviour
 
 	public void ReportPersonLost(Transform person)
 	{
-		person.GetComponent<Person>().shouldZoomIn = false;
+		Person p = person.GetComponent<Person>();
+		p.shouldZoomIn = false;
+		p.showcase.SetActive(false);
 
 		viewer.StopTracking();
 		viewer.blockXRotation = false;
@@ -112,5 +114,7 @@ public class GameManager : MonoBehaviour
 		viewer.blockXRotation = true;
 
 		personPullForce = strongPersonPullForce;
+
+		person.GetComponent<Person>().showcase.SetActive(true);
 	}
 }

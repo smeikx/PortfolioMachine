@@ -6,7 +6,9 @@ public class PersonSearcher : MonoBehaviourWithGameManager
 {
 	Transform foundPerson = null;
 	Transform cam;
-	int layerMask = 1 << 0;
+	int layerMask = 1 << 9;
+	const int personLayer = 9;
+	const int mediumLayer = 10;
 
 	void Start()
 	{
@@ -20,10 +22,7 @@ public class PersonSearcher : MonoBehaviourWithGameManager
 
 		RaycastHit hit;
 		if (Physics.Raycast(cam.position, cam.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
-		{
-			Debug.DrawRay(cam.position, cam.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
 			newFoundPerson = hit.transform;
-		}
 		else
 			Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
 
