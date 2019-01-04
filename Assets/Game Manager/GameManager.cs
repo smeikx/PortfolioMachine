@@ -117,4 +117,16 @@ public class GameManager : MonoBehaviour
 
 		person.GetComponent<Person>().showcase.SetActive(true);
 	}
+
+
+	public void ReportMediumFound(Transform medium)
+	{
+		Debug.Log("Medium Found");
+	}
+
+
+	public void ReportMediumLost(Transform medium)
+	{
+		Debug.Log("Medium Lost");
+	}
 }

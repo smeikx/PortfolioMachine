@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Searcher : MonoBehaviourWithGameManager
+public class MediumSearcher : MonoBehaviourWithGameManager
 {
 	Transform foundObject = null;
 	Transform cam;
-	int layerMask = 1 << 0;
+	const int layerMask = 1 << 10;
 
 	void Start()
 	{
@@ -27,18 +27,10 @@ public class Searcher : MonoBehaviourWithGameManager
 		if (newFoundObject != foundObject)
 		{
 			if (newFoundObject != null)
-				ReportObjectFound(newFoundObject);
-				//GM.ReportPersonFound(newFoundObject);
+				GM.ReportMediumFound(newFoundObject);
 			else
-				ReportObjectLost(foundObject);
-				//GM.ReportPersonLost(foundObject);
+				GM.ReportMediumLost(foundObject);
 			foundObject = newFoundObject;
 		}
 	}
-
-
-	void ReportObjectFound(Transform foundObject) {}
-
-
-	void ReportObjectLost(Transform lostObject) {}
 }
