@@ -71,4 +71,11 @@ public class Person : MonoBehaviourWithGameManager
 	{
 		transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, GM.personRotationSpeed * Time.deltaTime);
 	}
+
+
+	public void ResetPosition()
+	{
+		targetPosition = localOrigin;
+		transform.localPosition = localOrigin;
+	}
 }
