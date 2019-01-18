@@ -8,12 +8,14 @@ public class Medium : MonoBehaviour
 	Collider collider;
 	Renderer renderer;
 
+
 	void Start()
 	{
 		camPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 		collider = GetComponent<BoxCollider>();
 		renderer = GetComponent<Renderer>();
 	}
+
 
 	void Update()
 	{

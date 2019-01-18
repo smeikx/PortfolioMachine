@@ -1,15 +1,15 @@
 fileFormatVersion: 2
-guid: 4dadc46c1e17a4e82b8f1c6f53f66558
+guid: 9c976f3b1218f684a96d5848f0b9dfa5
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: No Name
+    2100000: Material.001
+    2100002: Material.002
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Text.005
-    4300002: Text
+    4300000: Text.001
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -61,7 +61,7 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-    useFileScale: 0
+    useFileScale: 1
     previousCalculatedGlobalScale: 1
     hasPreviousCalculatedGlobalScale: 0
   tangentSpace:

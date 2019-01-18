@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 #if OSC_AVAILABLE
 [RequireComponent(typeof(OSCMice))]
@@ -34,6 +35,10 @@ public class GameManager : MonoBehaviour
 	[SerializeField] float rotationFactorY = 1f;
 	[Tooltip("Wie stark beeinflusst die Drehung der Kugel den Blickwinkel auf der Z-Achse?")]
 	[SerializeField] float rotationFactorZ = 1f;
+
+	[Header("Medien-Parameter")]
+	[Tooltip("Wie lange dauert es, bis das Schlusslicht eines Showcase sich schließt?")]
+	public float exitMediumTime = 5f;
 
 	OSCMice oscMice;
 	Viewer viewer;
@@ -95,12 +100,16 @@ public class GameManager : MonoBehaviour
 		viewer.StartTracking(person.position);
 	}
 
+	Transform lastPerson;
+
 
 	public void ReportPersonLost(Transform person)
 	{
+		lastPerson = null;
+
 		Person p = person.GetComponent<Person>();
 		p.shouldZoomIn = false;
-		p.showcase.SetActive(false);
+		p.showcase.GetComponent<Showcase>().DeactivateAfterReset();
 
 		viewer.StopTracking();
 		viewer.blockXRotation = false;
@@ -111,6 +120,8 @@ public class GameManager : MonoBehaviour
 
 	public void ReportPersonSelected(Transform person)
 	{
+		lastPerson = person;
+
 		viewer.blockXRotation = true;
 
 		personPullForce = strongPersonPullForce;
@@ -121,12 +132,37 @@ public class GameManager : MonoBehaviour
 
 	public void ReportMediumFound(Transform medium)
 	{
-		Debug.Log("Medium Found");
+		Debug.Log("Medium Found: "+medium.name);
+
+		if (medium.tag == "ExitMedium" && lastPerson != null)
+			lastPerson.GetComponent<Person>().exitMediumActivated = true;
+
+		// Startet Video oder Sound falls möglich
+		VideoPlayer vp = medium.GetComponent<VideoPlayer>();
+		if (vp) vp.Play();
+		else
+		{
+			AudioSource ap = medium.GetComponent<AudioSource>();
+			if (ap) ap.Play();
+		}
 	}
 
 
 	public void ReportMediumLost(Transform medium)
 	{
-		Debug.Log("Medium Lost");
+		Debug.Log("Medium Lost: "+medium.name);
+
+		if (medium.tag == "ExitMedium" && lastPerson != null)
+			lastPerson.GetComponent<Person>().exitMediumActivated = false;
+
+
+		// Stoppt Video oder Sound falls möglich
+		VideoPlayer vp = medium.GetComponent<VideoPlayer>();
+		if (vp) vp.Stop();
+		else
+		{
+			AudioSource ap = medium.GetComponent<AudioSource>();
+			if (ap) ap.Stop();
+		}
 	}
 }

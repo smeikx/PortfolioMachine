@@ -18,6 +18,16 @@ public class Person : MonoBehaviourWithGameManager
 	Vector3 velocity = Vector3.zero; // for smooth damping
 
 	public GameObject showcase;
+	
+
+	public bool exitMediumActivated = false;
+	bool exitMediumStarted = false;
+	public float exitMediumTime = 5;
+	public float remainingExit = 5;
+	float exitMediumRemaining = 0, objectToCloseFactorLimit = 0.05f;
+	Vector3 originalLocalScale;
+
+	public GameObject objectToClose;
 
 
 	void Start()
@@ -53,6 +63,44 @@ public class Person : MonoBehaviourWithGameManager
 		// TODO: möglicherweise MoveTo() und RotateTo() überspringingen, wenn nicht notwendig.
 		MoveTo(targetPosition);
 		RotateTo(targetRotation);
+
+		
+		if(exitMediumActivated)
+		{
+			if(!exitMediumStarted)
+			{
+				exitMediumStarted = true;
+				exitMediumRemaining = exitMediumTime;
+				if(objectToClose != null)
+					originalLocalScale = objectToClose.transform.localScale;
+			}
+			else if(exitMediumRemaining >= Time.deltaTime)
+			{
+				exitMediumRemaining -= Time.deltaTime;
+				if(objectToClose != null)
+				{
+					float objectToCloseFactor = exitMediumRemaining/exitMediumTime; // everything in %
+					if(objectToCloseFactor < objectToCloseFactorLimit)
+						objectToCloseFactor = objectToCloseFactorLimit;
+					objectToClose.transform.localScale = new Vector3(originalLocalScale.x * objectToCloseFactor, originalLocalScale.y, originalLocalScale.z);
+				}
+			}
+			else
+			{
+				GM.ReportPersonLost(this.transform);
+				exitMediumActivated = false;
+				if(objectToClose != null)
+					objectToClose.transform.localScale = originalLocalScale;
+			}
+		}
+		else if(exitMediumStarted)
+		{
+			exitMediumStarted = false;
+			exitMediumRemaining = 0;
+			
+			if(objectToClose != null)
+				objectToClose.transform.localScale = originalLocalScale;
+		}
 	}
 
 
