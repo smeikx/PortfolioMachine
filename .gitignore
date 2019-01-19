@@ -1,4 +1,5 @@
 *.DS_Store
+Assets/TextMesh Pro/Documentation*
 
 [Ll]ibrary/
 [Tt]emp/
