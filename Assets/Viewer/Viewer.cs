@@ -22,7 +22,7 @@ public class Viewer : MonoBehaviourWithGameManager
 		if (blockXRotation)
 			rotationData.x = 0.0f;
 
-		rotationHelper.Rotate(rotationData); // TODO: um Kamera-Achsen drehen
+		rotationHelper.Rotate(rotationData);
 		if (shouldTrack)
 		{
 			Quaternion targetRotation = Quaternion.LookRotation(focusPoint, transform.up);
