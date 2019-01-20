@@ -153,9 +153,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Sara Unteregger
 
-    Interaktionsdesign
-
-    CMS17'
+    Interaktionsdesign'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0f277fd562f86499fba46f53601cdbe3, type: 2}
   m_sharedMaterial: {fileID: 21695058613072078, guid: 0f277fd562f86499fba46f53601cdbe3,
@@ -225,12 +223,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 1.5397234, w: 0}
   m_textInfo:
     textComponent: {fileID: 3615651715805200430}
-    characterCount: 40
+    characterCount: 34
     spriteCount: 0
-    spaceCount: 3
-    wordCount: 4
+    spaceCount: 2
+    wordCount: 3
     linkCount: 0
-    lineCount: 3
+    lineCount: 2
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
@@ -414,11 +412,7 @@ MonoBehaviour:
 
     Projektmanagement
 
-    Interfacedesign
-
-    hi@saraunteregger.com
-
-    saraunteregger.com'
+    Interfacedesign'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0f277fd562f86499fba46f53601cdbe3, type: 2}
   m_sharedMaterial: {fileID: 21695058613072078, guid: 0f277fd562f86499fba46f53601cdbe3,
@@ -488,12 +482,12 @@ MonoBehaviour:
   m_margin: {x: 1.2625566, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 3615651715873167728}
-    characterCount: 85
+    characterCount: 44
     spriteCount: 0
-    spaceCount: 4
-    wordCount: 8
+    spaceCount: 2
+    wordCount: 3
     linkCount: 0
-    lineCount: 5
+    lineCount: 3
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
