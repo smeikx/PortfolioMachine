@@ -9,16 +9,18 @@ public class Person : MonoBehaviourWithGameManager
 
 	Vector3 localOrigin;
 	Quaternion originalRotation;
+	float originalLocalZRotation;
 
 	Vector3 targetPosition;
 	Quaternion targetRotation;
 
 	SphereCollider collider;
+	Transform mainCam;
 
 	Vector3 velocity = Vector3.zero; // for smooth damping
 
 	public GameObject showcase;
-	
+
 
 	public bool exitMediumActivated = false;
 	bool exitMediumStarted = false;
@@ -35,26 +37,31 @@ public class Person : MonoBehaviourWithGameManager
 		SetGameManager();
 		localOrigin = transform.localPosition;
 		originalRotation = transform.rotation;
+		originalLocalZRotation = transform.localEulerAngles.z;
 		collider = GetComponent<SphereCollider>();
+		mainCam = Camera.main.transform;
 	}
 
 	void Update()
 	{
+		Vector3 personToCameraAxis = transform.position - mainCam.position;
 		if (shouldZoomIn)
 		{
 			targetPosition = transform.parent.InverseTransformPoint(
-					(transform.position - Camera.main.transform.position).normalized * GM.personZoomDistance);
+				(transform.position - mainCam.position).normalized * GM.personZoomDistance);
+
 			// Drehe Person so, dass sie parallel zur Kamera steht.
 			targetRotation = Quaternion.LookRotation(
-				transform.position - Camera.main.transform.position,
-				Camera.main.transform.up);
+				personToCameraAxis,
+				mainCam.up);
 		}
 		else
 		{
 			targetPosition = localOrigin;
 			// Passe Z-Drehung so an, dass sie relativ zur Kamera gleich bleibt.
-			Vector3 rotationAxis = (transform.position - Camera.main.transform.position).normalized;
-			targetRotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.z, rotationAxis) * originalRotation;
+			targetRotation = Quaternion.LookRotation(
+				originalRotation * Vector3.forward,
+				Quaternion.AngleAxis(originalLocalZRotation, personToCameraAxis) * mainCam.up);
 		}
 
 		if (shouldZoomIn && Vector3.Distance(targetPosition, transform.position) <= SELECTION_THRESHOLD)
