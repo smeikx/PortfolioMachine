@@ -62,11 +62,21 @@ public class PersonBuilder : MonoBehaviour
 			MediumData medium = mediumData[i];
 			
 			if (type == typeof(Texture2D))
+			{
 				SetImage(medium, (Texture2D)mediaAsset);
+				Destroy(medium.slate.GetComponent<AudioSource>());
+				Destroy(medium.slate.GetComponent<VideoPlayer>());
+			}
 			else if (type == typeof(VideoClip))
+			{
 				SetVideo(medium, (VideoClip)mediaAsset);
+				Destroy(medium.slate.GetComponent<AudioSource>());
+			}
 			else if (type == typeof(AudioClip))
+			{
 				SetSound(medium, (AudioClip)mediaAsset, soundBilder[i]);
+				Destroy(medium.slate.GetComponent<VideoPlayer>());
+			}
 
 			SetText(medium, i);
 		}
