@@ -29,13 +29,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 507744323732276044}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: -1.28, y: 0, z: 0}
   m_LocalScale: {x: 6.5356894, y: 3.6763253, z: 0.19776}
   m_Children: []
   m_Father: {fileID: 8905763125445128699}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!33 &3790129912475079996
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 507744323732276044}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7fe95658ed98e415e886cff9226b71d1, type: 3}
   m_Name: 
@@ -245,9 +245,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8905763125445128699}
+  - component: {fileID: 5171479093824900403}
+  - component: {fileID: 5399719023811830838}
   m_Layer: 9
   m_Name: Medium
-  m_TagString: Untagged
+  m_TagString: Medium
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -268,6 +270,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5171479093824900403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192098642035258049}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe95658ed98e415e886cff9226b71d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5399719023811830838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192098642035258049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f078a54ce7bf846ca9ad87cb84516086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slate: {fileID: 379839965294686214}
+  nameVertiefung: {fileID: 2692172019204642261}
+  projektNr: {fileID: 3582879196818293858}
+  projektTitel: {fileID: 599738995206444014}
+  beschreibung: {fileID: 8585222575921525754}
+  aufgabenbereich: {fileID: 8203766310501605484}
 --- !u!1 &2507831637885784897
 GameObject:
   m_ObjectHideFlags: 0
