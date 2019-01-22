@@ -48,6 +48,8 @@ public class PersonBuilder : MonoBehaviour
 		mediumData = new MediumData[nrOfUsedSlots];
 		for (int i = 0; i < nrOfUsedSlots; i++)
 			mediumData[i] = mediumContainer.GetChild(i).GetComponent<MediumData>();
+
+		GetComponent<Person>().hindmostMediumPosition = mediumContainer.GetChild(nrOfUsedSlots - 1).localPosition;
 		
 		// lösche ungenutzte Medium-Slots
 		for (int i = nrOfAvailaibleSlots - 1; i >= nrOfUsedSlots; i--)

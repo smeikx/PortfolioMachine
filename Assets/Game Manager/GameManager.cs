@@ -131,34 +131,28 @@ public class GameManager : MonoBehaviour
 	{
 		if (selectedPerson.IsAtTop())
 			return ScrollDirection.DOWN;
-		//else if ( // unter letztem Medium )
-			//return ScrollDirection.UP;
+		else if (selectedPerson.IsAtBottom())
+			return ScrollDirection.UP;
 		return ScrollDirection.BOTH;
 	}
 
 
 	public void ReportMediumFound(Transform medium)
 	{
-		Debug.Log("Medium Found");
-
-		// Startet Video oder Sound falls möglich
+		// Startet Video oder Sound, falls möglich
 		VideoPlayer vp = medium.GetComponent<VideoPlayer>();
-		if (vp)
-			vp.Play();
+		if (vp) vp.Play();
 		else
 		{
 			AudioSource ap = medium.GetComponent<AudioSource>();
-			if (ap)
-				ap.Play();
+			if (ap) ap.Play();
 		}
 	}
 
 
 	public void ReportMediumLost(Transform medium)
 	{
-		Debug.Log("Medium Lost");
-
-		// Stoppt Video oder Sound falls möglich
+		// Stoppt Video oder Sound, falls möglich
 		VideoPlayer vp = medium.GetComponent<VideoPlayer>();
 		if (vp) vp.Stop();
 		else

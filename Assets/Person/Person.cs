@@ -24,6 +24,7 @@ public class Person : MonoBehaviourWithGameManager
 	Vector3 velocity = Vector3.zero; // for smooth damping
 	Vector3 zoomedPosition;
 
+	public Vector3 hindmostMediumPosition; // local
 	//public GameObject showcase;
 
 
@@ -138,8 +139,17 @@ public class Person : MonoBehaviourWithGameManager
 
 	public bool IsAtTop()
 	{
-		return (mainCam.InverseTransformPoint(zoomedPosition).y - mainCam.InverseTransformPoint(GetGlobalTargetPosition()).y) >= 0f;
+		return (mainCam.InverseTransformPoint(zoomedPosition).y
+			- mainCam.InverseTransformPoint(GetGlobalTargetPosition()).y) >= 0f;
 	}
+
+
+	public bool IsAtBottom()
+	{
+		return (mainCam.InverseTransformPoint(GetGlobalTargetPosition()).y
+			+ mainCam.InverseTransformPoint(zoomedPosition).y + hindmostMediumPosition.y) >= 0f;
+	}
+
 
 	Vector3 GetGlobalTargetPosition()
 	{
