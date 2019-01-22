@@ -41,6 +41,8 @@ public class Person : MonoBehaviourWithGameManager
 
 	void Update()
 	{
+		if (IsBehindCamera()) return;
+
 		Vector3 personToCameraAxis = transform.position - mainCam.position;
 
 		switch (state)
@@ -88,8 +90,6 @@ public class Person : MonoBehaviourWithGameManager
 			}
 		}
 
-
-		// TODO: möglicherweise MoveTo() und RotateTo() überspringingen, wenn nicht notwendig.
 		MoveTo(targetPosition);
 		RotateTo(targetRotation);
 	}
@@ -155,5 +155,11 @@ public class Person : MonoBehaviourWithGameManager
 	Vector3 GetGlobalTargetPosition()
 	{
 		return transform.parent.InverseTransformPoint(targetPosition);
+	}
+
+
+	bool IsBehindCamera()
+	{
+		return mainCam.InverseTransformPoint(transform.position).z <= 0f;
 	}
 }
