@@ -24,8 +24,9 @@ public class Person : MonoBehaviourWithGameManager
 	Vector3 velocity = Vector3.zero; // for smooth damping
 	Vector3 zoomedPosition;
 
+	[HideInInspector]
 	public Vector3 hindmostMediumPosition; // local
-	//public GameObject showcase;
+	public GameObject showcase;
 
 
 	void Start()

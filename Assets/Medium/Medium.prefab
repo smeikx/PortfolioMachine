@@ -245,7 +245,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8905763125445128699}
-  - component: {fileID: 5171479093824900403}
   - component: {fileID: 5399719023811830838}
   m_Layer: 10
   m_Name: Medium
@@ -270,18 +269,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5171479093824900403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1192098642035258049}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fe95658ed98e415e886cff9226b71d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5399719023811830838
 MonoBehaviour:
   m_ObjectHideFlags: 0

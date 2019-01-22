@@ -2,55 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Showcase : MonoBehaviourWithGameManager
+public class Showcase : MonoBehaviour
 {
-	Transform[] works;
-	Vector3 localDestination;
-	Vector3 velocity = Vector3.zero; // für SmoothDamp
-	float scrollDuration = 0.3f;
-	const float SCROLL_FACTOR = 0.1f;
-	Animation animation;
+	Animator animator;
+
 
 	void Start()
 	{
-		SetGameManager();
-
-		localDestination = transform.localPosition;
-
-		animation = GetComponent<Animation>();
-
-		works = new Transform[transform.childCount];
-		int i = 0;
-		foreach (Transform child in transform)
-			works[i++] = child;
-
+		animator = GetComponent<Animator>();
 		gameObject.SetActive(false);
 	}
 
 
-	void Update()
+	public void StartOutro()
 	{
-		localDestination += GM.GetRelativeRotationInput().x * SCROLL_FACTOR * Vector3.up;
-		transform.localPosition = Vector3.SmoothDamp(transform.localPosition, localDestination, ref velocity, scrollDuration);
+		Debug.Log("Start Oturo");
+		animator.SetTrigger("startOutro");
 	}
 
 
-	void OnEnable()
+	public void Disable()
 	{
-		if(animation != null)
-		{
-			animation["Slide in"].speed = 1;
-			animation.Play();
-		}
-	}
-
-
-	void OnDisable()
-	{
-	}
-
-
-	public void Activate()
-	{
+		animator.ResetTrigger("startOutro");
+		gameObject.SetActive(false);
 	}
 }

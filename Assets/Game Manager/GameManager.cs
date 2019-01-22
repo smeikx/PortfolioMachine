@@ -92,8 +92,7 @@ public class GameManager : MonoBehaviour
 	{
 		viewer.StartTracking(person.position);
 
-		Person p = person.GetComponent<Person>();
-		p.ShouldZoom();
+		person.GetComponent<Person>().ShouldZoom();
 	}
 
 
@@ -107,6 +106,7 @@ public class GameManager : MonoBehaviour
 
 		Person p = person.GetComponent<Person>();
 		p.ShouldGoBack();
+		p.showcase.GetComponent<Showcase>().StartOutro();
 	}
 
 
@@ -120,8 +120,7 @@ public class GameManager : MonoBehaviour
 		personPullForce = strongPersonPullForce;
 
 		person.ShouldScroll();
-
-		//person.showcase.SetActive(true);
+		person.showcase.SetActive(true);
 	}
 
 
