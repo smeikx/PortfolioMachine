@@ -35,6 +35,7 @@ public class Viewer : MonoBehaviourWithGameManager
 					rotationData.x = Mathf.Min(rotationData.x, 0f);
 					break;
 			}
+			rotationData.z = 0f;
 		}
 
 		rotationHelper.Rotate(rotationData);
