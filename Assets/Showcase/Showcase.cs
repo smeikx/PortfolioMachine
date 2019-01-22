@@ -16,13 +16,14 @@ public class Showcase : MonoBehaviour
 
 	public void StartOutro()
 	{
-		Debug.Log("Start Oturo");
+		AudioListener.pause = true;
 		animator.SetTrigger("startOutro");
 	}
 
 
 	public void Disable()
 	{
+		AudioListener.pause = false;
 		animator.ResetTrigger("startOutro");
 		gameObject.SetActive(false);
 	}
