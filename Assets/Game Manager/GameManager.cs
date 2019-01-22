@@ -26,6 +26,11 @@ public class GameManager : MonoBehaviour
 	[Tooltip("Wie stark wird der Blick im Mittelpunkt der Person gehalten, sobald sie ausgewählt ist?")]
 	public float strongPersonPullForce = 1.0f;
 
+	[Header("Showcase-Parameter")]
+	[Tooltip("Wie schnell soll man durch die Arbeiten scrollen können?")]
+	[SerializeField] float scrollSpeed = 1.0f;
+	[SerializeField] float scrollFactor = 1.0f;
+
 	[Header("Drehungs-Parameter")]
 	[Tooltip("Wie groß ist die Verzögerung, mit der die Drehung der Kugel den Blickwinkel verändert?")]
 	public float viewRotationSpeed = 2f;
@@ -36,20 +41,12 @@ public class GameManager : MonoBehaviour
 	[Tooltip("Wie stark beeinflusst die Drehung der Kugel den Blickwinkel auf der Z-Achse?")]
 	[SerializeField] float rotationFactorZ = 1f;
 
-	[Header("Medien-Parameter")]
-	[Tooltip("Wie lange dauert es, bis das Schlusslicht eines Showcase sich schließt?")]
-	public float exitMediumTime = 5f;
-
 	OSCMice oscMice;
 	Viewer viewer;
 	[HideInInspector] public float personPullForce = 1.0f;
+	[HideInInspector] public float personMoveDuration = 1.0f;
 
-	enum State {
-		Searching, // in Übersicht, schaut sich um
-		Focusing, // hat Person fokussiert
-		Selected // Person ist herangezogen, Arbeiten werden angezeigt
-	};
-	State state = State.Searching;
+	Person selectedPerson;
 
 
 	void Start ()
@@ -93,68 +90,73 @@ public class GameManager : MonoBehaviour
 
 	public void ReportPersonFound(Transform person)
 	{
-		state = State.Focusing;
-
-		person.GetComponent<Person>().shouldZoomIn = true;
-
 		viewer.StartTracking(person.position);
-	}
 
-	Transform lastPerson;
+		Person p = person.GetComponent<Person>();
+		p.ShouldZoom();
+	}
 
 
 	public void ReportPersonLost(Transform person)
 	{
-		lastPerson = null;
+		viewer.StopTracking();
+		viewer.restrictRotation = false;
+
+		personMoveDuration = personZoomDuration;
+		personPullForce = weakPersonPullForce;
 
 		Person p = person.GetComponent<Person>();
-		p.shouldZoomIn = false;
-		p.showcase.GetComponent<Showcase>().DeactivateAfterReset();
-
-		viewer.StopTracking();
-		viewer.blockXRotation = false;
-
-		personPullForce = weakPersonPullForce;
+		p.ShouldGoBack();
 	}
 
 
-	public void ReportPersonSelected(Transform person)
+	public void ReportPersonSelected(Person person)
 	{
-		lastPerson = person;
+		selectedPerson = person;
 
-		viewer.blockXRotation = true;
+		viewer.restrictRotation = true;
 
+		personMoveDuration = scrollSpeed;
 		personPullForce = strongPersonPullForce;
 
-		person.GetComponent<Person>().showcase.SetActive(true);
+		person.ShouldScroll();
+
+		//person.showcase.SetActive(true);
+	}
+
+
+	public enum ScrollDirection { UP, BOTH, DOWN }
+
+	public ScrollDirection GetPossibleScrollDirection()
+	{
+		if (selectedPerson.IsAtTop())
+			return ScrollDirection.DOWN;
+		//else if ( // unter letztem Medium )
+			//return ScrollDirection.UP;
+		return ScrollDirection.BOTH;
 	}
 
 
 	public void ReportMediumFound(Transform medium)
 	{
-		Debug.Log("Medium Found: "+medium.name);
-
-		if (medium.tag == "ExitMedium" && lastPerson != null)
-			lastPerson.GetComponent<Person>().exitMediumActivated = true;
+		Debug.Log("Medium Found");
 
 		// Startet Video oder Sound falls möglich
 		VideoPlayer vp = medium.GetComponent<VideoPlayer>();
-		if (vp) vp.Play();
+		if (vp)
+			vp.Play();
 		else
 		{
 			AudioSource ap = medium.GetComponent<AudioSource>();
-			if (ap) ap.Play();
+			if (ap)
+				ap.Play();
 		}
 	}
 
 
 	public void ReportMediumLost(Transform medium)
 	{
-		Debug.Log("Medium Lost: "+medium.name);
-
-		if (medium.tag == "ExitMedium" && lastPerson != null)
-			lastPerson.GetComponent<Person>().exitMediumActivated = false;
-
+		Debug.Log("Medium Lost");
 
 		// Stoppt Video oder Sound falls möglich
 		VideoPlayer vp = medium.GetComponent<VideoPlayer>();

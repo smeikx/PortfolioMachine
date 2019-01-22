@@ -5,7 +5,7 @@ using UnityEngine;
 public class Viewer : MonoBehaviourWithGameManager
 {
 	public Transform rotationHelper;
-	[HideInInspector] public bool blockXRotation = false;
+	[HideInInspector] public bool restrictRotation = false;
 
 	Vector3 focusPoint;
 	bool shouldTrack = false;
@@ -19,8 +19,23 @@ public class Viewer : MonoBehaviourWithGameManager
 	void Update()
 	{
 		Vector3 rotationData = GM.GetRelativeRotationInput();
-		if (blockXRotation)
-			rotationData.x = 0.0f;
+
+		if (restrictRotation)
+		{
+			var scrollDir = GM.GetPossibleScrollDirection();
+			switch (scrollDir)
+			{
+				case GameManager.ScrollDirection.BOTH:
+					rotationData.x = 0f;
+					break;
+				case GameManager.ScrollDirection.UP:
+					rotationData.x = Mathf.Max(rotationData.x, 0f);
+					break;
+				case GameManager.ScrollDirection.DOWN:
+					rotationData.x = Mathf.Min(rotationData.x, 0f);
+					break;
+			}
+		}
 
 		rotationHelper.Rotate(rotationData);
 		if (shouldTrack)

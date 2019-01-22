@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Person : MonoBehaviourWithGameManager
 {
-	public bool shouldZoomIn = false;
-	const float SELECTION_THRESHOLD = 0.2f;
+	const float MEASURE_THRESHOLD = 0.2f;
+	State state = State.GO_BACK;
+
+	enum State {
+		GO_BACK, ZOOM, SCROLL
+	}
 
 	Vector3 localOrigin;
 	Quaternion originalRotation;
@@ -16,20 +20,11 @@ public class Person : MonoBehaviourWithGameManager
 
 	SphereCollider collider;
 	Transform mainCam;
-
+	
 	Vector3 velocity = Vector3.zero; // for smooth damping
+	Vector3 zoomedPosition;
 
-	public GameObject showcase;
-
-
-	public bool exitMediumActivated = false;
-	bool exitMediumStarted = false;
-	public float exitMediumTime = 5;
-	public float remainingExit = 5;
-	float exitMediumRemaining = 0, objectToCloseFactorLimit = 0.05f;
-	Vector3 originalLocalScale;
-
-	public GameObject objectToClose;
+	//public GameObject showcase;
 
 
 	void Start()
@@ -45,76 +40,63 @@ public class Person : MonoBehaviourWithGameManager
 	void Update()
 	{
 		Vector3 personToCameraAxis = transform.position - mainCam.position;
-		if (shouldZoomIn)
-		{
-			targetPosition = transform.parent.InverseTransformPoint(
-				(transform.position - mainCam.position).normalized * GM.personZoomDistance);
 
-			// Drehe Person so, dass sie parallel zur Kamera steht.
-			targetRotation = Quaternion.LookRotation(
-				personToCameraAxis,
-				mainCam.up);
-		}
-		else
+		switch (state)
 		{
-			targetPosition = localOrigin;
-			// Passe Z-Drehung so an, dass sie relativ zur Kamera gleich bleibt.
-			targetRotation = Quaternion.LookRotation(
-				originalRotation * Vector3.forward,
-				Quaternion.AngleAxis(originalLocalZRotation, personToCameraAxis) * mainCam.up);
+			case State.GO_BACK:
+			{
+				targetPosition = localOrigin;
+				// Passe Z-Drehung so an, dass sie relativ zur Kamera gleich bleibt.
+				targetRotation = Quaternion.LookRotation(
+					originalRotation * Vector3.forward,
+					Quaternion.AngleAxis(originalLocalZRotation, personToCameraAxis) * mainCam.up);
+				break;
+			}
+
+			case State.SCROLL:
+			{
+				// positiv == nach unten scrollen
+				// negativ == nach oben scrollen
+				float scrollDelta = GM.GetRelativeRotationInput().x;
+
+				GameManager.ScrollDirection scrollDir = GM.GetPossibleScrollDirection();
+				if (scrollDir == GameManager.ScrollDirection.DOWN)
+					scrollDelta = Mathf.Max(scrollDelta, 0f);
+				else if (scrollDir == GameManager.ScrollDirection.UP)
+					scrollDelta = Mathf.Min(scrollDelta, 0f);
+
+				targetPosition += transform.parent.InverseTransformDirection(mainCam.up) * scrollDelta;
+				break;
+			}
+
+			case State.ZOOM:
+			{
+				targetPosition = transform.parent.InverseTransformPoint(
+					personToCameraAxis.normalized * GM.personZoomDistance);
+
+				// Drehe Person so, dass sie parallel zur Kamera steht.
+				targetRotation = Quaternion.LookRotation(
+					personToCameraAxis,
+					mainCam.up);
+
+				if (Vector3.Distance(targetPosition, transform.position) <= MEASURE_THRESHOLD)
+					GM.ReportPersonSelected(this);
+
+				break;
+			}
 		}
 
-		if (shouldZoomIn && Vector3.Distance(targetPosition, transform.position) <= SELECTION_THRESHOLD)
-			GM.ReportPersonSelected(transform);
 
 		// TODO: möglicherweise MoveTo() und RotateTo() überspringingen, wenn nicht notwendig.
 		MoveTo(targetPosition);
 		RotateTo(targetRotation);
-
-		
-		if(exitMediumActivated)
-		{
-			if(!exitMediumStarted)
-			{
-				exitMediumStarted = true;
-				exitMediumRemaining = exitMediumTime;
-				if(objectToClose != null)
-					originalLocalScale = objectToClose.transform.localScale;
-			}
-			else if(exitMediumRemaining >= Time.deltaTime)
-			{
-				exitMediumRemaining -= Time.deltaTime;
-				if(objectToClose != null)
-				{
-					float objectToCloseFactor = exitMediumRemaining/exitMediumTime; // everything in %
-					if(objectToCloseFactor < objectToCloseFactorLimit)
-						objectToCloseFactor = objectToCloseFactorLimit;
-					objectToClose.transform.localScale = new Vector3(originalLocalScale.x * objectToCloseFactor, originalLocalScale.y, originalLocalScale.z);
-				}
-			}
-			else
-			{
-				GM.ReportPersonLost(this.transform);
-				exitMediumActivated = false;
-				if(objectToClose != null)
-					objectToClose.transform.localScale = originalLocalScale;
-			}
-		}
-		else if(exitMediumStarted)
-		{
-			exitMediumStarted = false;
-			exitMediumRemaining = 0;
-			
-			if(objectToClose != null)
-				objectToClose.transform.localScale = originalLocalScale;
-		}
 	}
 
 
 	void MoveTo(Vector3 localDestination)
 	{
 		// interpoliere vor die Kamera
-		transform.localPosition = Vector3.SmoothDamp(transform.localPosition, localDestination, ref velocity, GM.personZoomDuration);
+		transform.localPosition = Vector3.SmoothDamp(transform.localPosition, localDestination, ref velocity, GM.personMoveDuration);
 		// Für Entscheidung zwischen Lerp und SmoothDamp siehe hier: http://i.imgur.com/FeKRE1c.gif
 
 		// halte Collider an Ursprungsposition
@@ -132,5 +114,35 @@ public class Person : MonoBehaviourWithGameManager
 	{
 		targetPosition = localOrigin;
 		transform.localPosition = localOrigin;
+	}
+
+
+	public void ShouldScroll()
+	{
+		state = State.SCROLL;
+		zoomedPosition = GetGlobalTargetPosition();
+	}
+
+
+	public void ShouldZoom()
+	{
+		state = State.ZOOM;
+	}
+
+
+	public void ShouldGoBack()
+	{
+		state = State.GO_BACK;
+	}
+
+
+	public bool IsAtTop()
+	{
+		return (mainCam.InverseTransformPoint(zoomedPosition).y - mainCam.InverseTransformPoint(GetGlobalTargetPosition()).y) >= 0f;
+	}
+
+	Vector3 GetGlobalTargetPosition()
+	{
+		return transform.parent.InverseTransformPoint(targetPosition);
 	}
 }
