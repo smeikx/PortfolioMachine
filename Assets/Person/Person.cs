@@ -18,7 +18,7 @@ public class Person : MonoBehaviourWithGameManager
 	Vector3 targetPosition;
 	Quaternion targetRotation;
 
-	SphereCollider collider;
+	new SphereCollider collider;
 	Transform mainCam;
 	
 	Vector3 velocity = Vector3.zero; // for smooth damping

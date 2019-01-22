@@ -14,9 +14,9 @@ public class AdjustPostEffects : MonoBehaviour
 
 	void Start()
 	{
-		volume = gameObject.GetComponent<PostProcessVolume>();
+		/*volume = gameObject.GetComponent<PostProcessVolume>();
 		volume.profile.TryGetSettings(out dofLayer);
-		volume.profile.TryGetSettings(out vignetteLayer);
+		volume.profile.TryGetSettings(out vignetteLayer);*/
 	}
 
 	void Update()

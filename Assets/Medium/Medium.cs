@@ -6,8 +6,8 @@ using TMPro;
 public class Medium : MonoBehaviour
 {
 	Plane[] camPlanes;
-	Collider collider;
-	Renderer renderer;
+	new Collider collider;
+	new Renderer renderer;
 
 
 	void Start()

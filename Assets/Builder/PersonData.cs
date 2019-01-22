@@ -6,7 +6,7 @@ using TMPro;
 public class PersonData : MonoBehaviour
 {
 	public Transform mediums;
-	public TextMeshPro name;
+	new public TextMeshPro name;
 	public TextMeshPro nameVertiefung;
 	public TextMeshPro interessen;
 }

@@ -6,7 +6,7 @@ using UnityEngine.Video;
 public class PersonBuilder : MonoBehaviour
 {
 	[Header("Personendaten")]
-	[SerializeField] TextAsset name;
+	[SerializeField] new TextAsset name;
 	[SerializeField] TextAsset vertiefung;
 	[SerializeField] TextAsset interessen;
 
