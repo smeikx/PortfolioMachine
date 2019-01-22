@@ -6313,7 +6313,7 @@ PrefabInstance:
     - target: {fileID: 3829958340907663409, guid: 9331cb321f24e439dbf1be1cd74d3d5f,
         type: 3}
       propertyPath: m_TagString
-      value: Slate
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2028834991334820710, guid: 9331cb321f24e439dbf1be1cd74d3d5f,
         type: 3}
