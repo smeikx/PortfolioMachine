@@ -27,19 +27,16 @@ public class GameManager : MonoBehaviour
 	public float strongPersonPullForce = 1.0f;
 
 	[Header("Showcase-Parameter")]
-	[Tooltip("Wie schnell soll man durch die Arbeiten scrollen können?")]
-	[SerializeField] float scrollSpeed = 1.0f;
-	[SerializeField] float scrollFactor = 1.0f;
+	[Tooltip("Wie träge ist das Scrollen?")]
+	[SerializeField] float scrollInertia = 1.0f;
+	[Tooltip("Wie stark beeinflusst die Kugeldrehung das Scrollen durch die Arbeiten?")]
+	public float scrollFactor = 1.0f;
 
 	[Header("Drehungs-Parameter")]
 	[Tooltip("Wie groß ist die Verzögerung, mit der die Drehung der Kugel den Blickwinkel verändert?")]
 	public float viewRotationSpeed = 2f;
 	[Tooltip("Wie stark beeinflusst die Drehung der Kugel den Blickwinkel auf der X-Achse?")]
-	[SerializeField] float rotationFactorX = 1f;
-	[Tooltip("Wie stark beeinflusst die Drehung der Kugel den Blickwinkel auf der Y-Achse?")]
-	[SerializeField] float rotationFactorY = 1f;
-	[Tooltip("Wie stark beeinflusst die Drehung der Kugel den Blickwinkel auf der Z-Achse?")]
-	[SerializeField] float rotationFactorZ = 1f;
+	public Vector3 rotationFactor = Vector3.one;
 
 	OSCMice oscMice;
 	Viewer viewer;
@@ -72,14 +69,14 @@ public class GameManager : MonoBehaviour
 	{
 		#if OSC_AVAILABLE
 		Vector3 relativeRotation = new Vector3(
-			oscMice.mouse_1.y * rotationFactorX,
-			oscMice.mouse_2.y * rotationFactorY,
-			oscMice.mouse_1.x * rotationFactorZ
+			oscMice.mouse_1.y,
+			oscMice.mouse_2.y,
+			oscMice.mouse_1.x
 		);
 		#else
 		Vector3 relativeRotation = new Vector3(
-			Input.GetAxis("Mouse Y") * rotationFactorX,
-			Input.GetAxis("Mouse X") * -rotationFactorY,
+			Input.GetAxis("Mouse Y"),
+			- Input.GetAxis("Mouse X"),
 			0f
 		);
 		#endif
@@ -116,7 +113,7 @@ public class GameManager : MonoBehaviour
 
 		viewer.restrictRotation = true;
 
-		personMoveDuration = scrollSpeed;
+		personMoveDuration = scrollInertia;
 		personPullForce = strongPersonPullForce;
 
 		person.ShouldScroll();

@@ -59,7 +59,7 @@ public class Person : MonoBehaviourWithGameManager
 			{
 				// positiv == nach unten scrollen
 				// negativ == nach oben scrollen
-				float scrollDelta = GM.GetRelativeRotationInput().x;
+				float scrollDelta = GM.GetRelativeRotationInput().x * GM.scrollFactor;
 
 				GameManager.ScrollDirection scrollDir = GM.GetPossibleScrollDirection();
 				if (scrollDir == GameManager.ScrollDirection.DOWN)

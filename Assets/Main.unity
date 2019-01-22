@@ -491,13 +491,11 @@ MonoBehaviour:
   personZoomDuration: 0.5
   personRotationSpeed: 1
   weakPersonPullForce: 0.8
-  strongPersonPullForce: 2
-  scrollSpeed: 1
-  scrollFactor: 1
+  strongPersonPullForce: 5
+  scrollInertia: 0.3
+  scrollFactor: 0.5
   viewRotationSpeed: 5
-  rotationFactorX: 0.5
-  rotationFactorY: 0.5
-  rotationFactorZ: 0.5
+  rotationFactor: {x: 0.5, y: 0.5, z: 0.5}
   personPullForce: 1
   personMoveDuration: 1
 --- !u!4 &718333323
@@ -5355,16 +5353,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3615651715818959668, guid: 9331cb321f24e439dbf1be1cd74d3d5f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3615651715818959668, guid: 9331cb321f24e439dbf1be1cd74d3d5f,
-        type: 3}
-      propertyPath: m_TagString
-      value: Showcase
-      objectReference: {fileID: 0}
     - target: {fileID: 3615651716916434411, guid: 9331cb321f24e439dbf1be1cd74d3d5f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5419,6 +5407,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3615651715818959668, guid: 9331cb321f24e439dbf1be1cd74d3d5f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3615651715818959668, guid: 9331cb321f24e439dbf1be1cd74d3d5f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Showcase
       objectReference: {fileID: 0}
     - target: {fileID: 1062812718582070753, guid: 9331cb321f24e439dbf1be1cd74d3d5f,
         type: 3}

@@ -18,7 +18,8 @@ public class Viewer : MonoBehaviourWithGameManager
 
 	void Update()
 	{
-		Vector3 rotationData = GM.GetRelativeRotationInput();
+		Vector3 rotationData = Vector3.Scale(
+			GM.GetRelativeRotationInput(), GM.rotationFactor);
 
 		if (restrictRotation)
 		{
