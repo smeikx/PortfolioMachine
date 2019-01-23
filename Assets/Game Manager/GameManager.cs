@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 	[Header("Objekt-Referencen")]
 	[Tooltip("Die Hauptkamera, der Betrachter.")]
 	[SerializeField] Transform mainCamera;
+	[SerializeField] RectTransform cursor;
 
 	[Header("Selektions-Parameter")]
 	[Tooltip("Wie nah vor der Kamera schwebt die Person?")]
@@ -104,6 +105,8 @@ public class GameManager : MonoBehaviour
 		Person p = person.GetComponent<Person>();
 		p.ShouldGoBack();
 		p.showcase.GetComponent<Showcase>().StartOutro();
+
+		cursor.localScale = Vector3.one;
 	}
 
 
@@ -118,6 +121,8 @@ public class GameManager : MonoBehaviour
 
 		person.ShouldScroll();
 		person.showcase.SetActive(true);
+
+		cursor.localScale = Vector3.zero;
 	}
 
 

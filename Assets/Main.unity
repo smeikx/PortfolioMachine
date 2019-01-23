@@ -487,6 +487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 534669905}
+  cursor: {fileID: 2114813616}
   personZoomDistance: 5
   personZoomDuration: 0.5
   personRotationSpeed: 1
